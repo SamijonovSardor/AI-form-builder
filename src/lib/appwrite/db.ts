@@ -163,7 +163,7 @@ export async function createResponse(
       fileIds: fileIds ? JSON.stringify(fileIds) : undefined,
     },
     permissions: [
-      Permission.create(Role.any()),
+      Permission.write(Role.any()),
       Permission.read(Role.any()),
     ],
   });

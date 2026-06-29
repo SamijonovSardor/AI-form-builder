@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import type { FormField } from "@/types/form";
 
-export type AnswerValue = string | string[] | number | null;
+export type AnswerValue = string | string[] | number | File | null;
 
 export interface AnswerMap {
   [fieldId: string]: AnswerValue;
@@ -244,7 +244,6 @@ function FieldInput({ field, value, onChange, error, disabled }: FieldInputProps
 
       {field.type === "file" && (
         <FileInput
-          field={field}
           value={value}
           onChange={onChange}
           disabled={disabled}
@@ -299,17 +298,16 @@ function RatingInput({
 }
 
 function FileInput({
-  field,
   value,
   onChange,
   disabled,
 }: {
-  field: FormField;
   value: AnswerValue;
   onChange: (v: AnswerValue) => void;
   disabled?: boolean;
 }) {
-  const inputId = `file-${field.id}`;
+  const inputId = "file-upload";
+  const fileName = value instanceof File ? value.name : typeof value === "string" ? value : null;
   return (
     <div className="space-y-2">
       <label
@@ -322,13 +320,13 @@ function FileInput({
           disabled={disabled}
           onChange={(e) => {
             const f = e.target.files?.[0] ?? null;
-            onChange(f ? f.name : null);
+            onChange(f);
           }}
           className="sr-only"
         />
-        {value ? (
+        {fileName ? (
           <span className="inline-flex items-center gap-2 text-foreground">
-            <Check className="h-4 w-4 text-emerald-500" /> {String(value)}
+            <Check className="h-4 w-4 text-emerald-500" /> {fileName}
           </span>
         ) : (
           <span>Click to upload a file</span>

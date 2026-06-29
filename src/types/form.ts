@@ -35,7 +35,7 @@ export interface FormDoc {
   updatedAt: string;
 }
 
-export type AnswerValue = string | string[] | number | null;
+export type AnswerValue = string | string[] | number | File | null;
 
 export interface ResponseDoc {
   $id: string;

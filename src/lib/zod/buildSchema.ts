@@ -73,7 +73,10 @@ export function buildZodSchema(
         schema = z.string().min(1, "Please pick a date");
         break;
       case "file":
-        schema = z.string().min(1, "Please upload a file");
+        schema = z.union([
+          z.instanceof(File, { message: "Please upload a file" }),
+          z.string().min(1, "Please upload a file"),
+        ]);
         break;
       case "text":
       case "textarea":
